@@ -7,44 +7,25 @@ module "vpc" {
   version = "6.6.0"
 
 
-  name = "my-vpc"
-  cidr = "10.0.0.0/16"
+  name = "dev_vpc"
+  cidr = "10.10.10.0/25"
 
-  azs             = ["eu-west-2a", "eu-west-2b"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
-  public_subnets  = ["10.0.101.0/24"]
+  azs             = ["eu-west-2a"]
+  private_subnets = ["10.10.10.0/27", "10.10.10.32/27"]
+  public_subnets  = ["10.10.10.64/27", "10.10.10.96/27"]
 
   enable_nat_gateway   = true
-  enable_vpn_gateway   = true
+  single_nat_gateway = true
+  enable_vpn_gateway   = false
   enable_dns_hostnames = true
-
   tags = {
     Terraform   = "true"
     Environment = "dev"
   }
 }
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+resource "aws_internet_gateway" "dev_gw" {
+  vpc_id = aws_vpc.dev_vpc.id
+    tags = {
+    Name = "Dev"
   }
-
-  owners = ["099720109477"]
-}
-
-resource "aws_instance" "app_server" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-
-
-  vpc_security_group_ids = [module.vpc.default_security_group_id]
-  subnet_id              = module.vpc.private_subnets[0]
-
-  tags = {
-    Name = var.instance_name
-  }
-
 }

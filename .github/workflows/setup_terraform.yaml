@@ -3,13 +3,10 @@ run-name: Terraform-Action
 
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'main'
-
+  pull_request:
+      branches:
+          - master
+        
 
 jobs:
   terraform:
