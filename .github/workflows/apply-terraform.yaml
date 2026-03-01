@@ -1,5 +1,5 @@
 name: Terraform Apply
-run-name: Apply_TF_action
+
 
 
 on:
@@ -25,4 +25,5 @@ jobs:
         - name: Apply
           run: |
             echo "Terraform will now Apply Configuration"
+            terraform init -input=false
             terraform apply -auto-approve -input=false
