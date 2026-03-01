@@ -1,6 +1,4 @@
-name: Setup-Terraform
-run-name: Setup_TF_action
-
+name: Terraform Plan
 
 on:
   pull_request:
