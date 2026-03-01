@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "170"
     workspaces {
-      name = "learn-terraform-aws-get-started"
+      name = "Terraform_Working_Directory"
     }
   }
   required_providers {
