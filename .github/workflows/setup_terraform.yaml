@@ -1,5 +1,5 @@
 name: Setup-Terraform
-run-name: Terraform-Action
+run-name: Setup_TF_action
 
 
 on:
