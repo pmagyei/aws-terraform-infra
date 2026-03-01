@@ -22,10 +22,4 @@ module "vpc" {
     Terraform   = "true"
     Environment = "dev"
   }
-}
-resource "aws_internet_gateway" "dev_gw" {
-  vpc_id = aws_vpc.dev_vpc.id
-    tags = {
-    Name = "Dev"
-  }
-}
+
