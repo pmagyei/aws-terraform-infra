@@ -1,0 +1,14 @@
+name: Apply-Terraform
+run-name: Apply_TF_action
+
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  after-merge:
+    if: ${{ github.event.pull_request.merged == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This runs when a pull request is merged"
