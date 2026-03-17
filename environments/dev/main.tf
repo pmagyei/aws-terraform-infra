@@ -65,6 +65,21 @@ resource "aws_subnet" "private_subnet_b" {
   }
 }
 
+#ipv4
+resource "aws_eip" "nat" {
+  domain = "dev_vpv"
+  tags = {
+    Name = "nat-eip"
+  }
+}
+resource "aws_nat_gateway" "ipv4_nat" {
+  allocation_id = aws_eip.nat.id
+  subnet_id = aws_subnet.public_subnet_a.id 
+  tags = {
+    Name = "aws_nat_gw"
+  }
+}
+
 resource "aws_route_table" "dual_stack_public_route_table" {
   vpc_id = aws_vpc.dev_vpc.id
 
@@ -87,21 +102,6 @@ resource "aws_route_table_association" "public_a" {
 resource "aws_route_table_association" "public_b" {
   subnet_id      = aws_subnet.public_subnet_b.id
   route_table_id = aws_route_table.dual_stack_public_route_table.id
-}
-
-#ipv4
-resource "aws_eip" "nat" {
-  domain = "dev_vpv"
-  tags = {
-    Name = "nat-eip"
-  }
-}
-resource "aws_nat_gateway" "ipv4_nat" {
-  allocation_id = aws_eip.nat.id
-  subnet_id = aws_subnet.public_subnet_a.id 
-  tags = {
-    Name = "aws_nat_gw"
-  }
 }
 
 resource "aws_route_table" "dual_stack_private_route_table" {
@@ -130,4 +130,4 @@ resource "aws_route_table_association" "private_b" {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 # secuirty groups to be added
 
-# nacl to be added
+# nacls to be added
