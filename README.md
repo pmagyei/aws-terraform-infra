@@ -88,20 +88,19 @@ Subnet A to Subnet B
 uses implicit VPC routing(local)
 
 Resource Dependecies: 
+1) VPC
 
-VPC
- ↓
-Subnets
- ↓
-Internet Gateway
- ↓
-Elastic IP
- ↓
-NAT Gateway
- ↓
-Route Tables
- ↓
-Route Table Associations
+2) Subnets
+
+3) Internet Gateway
+
+4) Elastic IP
+
+5) NAT Gateway
+
+6) Route Tables
+
+7) Route Tables Associations
 
 Critical Dependac=ncy Examples:
 
