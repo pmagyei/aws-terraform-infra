@@ -66,7 +66,7 @@ resource "aws_subnet" "private_subnet_b" {
 
 #ipv4
 resource "aws_eip" "nat" {
-  domain = "dev_vpc"
+  domain = "vpc"
   tags = {
     Name = "nat-eip"
   }
