@@ -22,16 +22,16 @@ jobs:
 
         - name: Terraform fmt
           id: fmt
-          run: terraform fmt -check
+          run: terraform fmt -check #verifies file formatting
           continue-on-error: true
 
         - name: Terraform Init
           id: init
-          run: terraform init -input=false
+          run: terraform init -input=false #no prompts for input
 
         - name: Terraform Validate
           id: validate
-          run: terraform validate -no-color
+          run: terraform validate -no-color #plain text output
 
         - name: Terraform Plan
           id: plan
