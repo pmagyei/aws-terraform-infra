@@ -90,18 +90,18 @@ uses implicit VPC routing(local)
 Resource Dependecies: 
 
 VPC
-
+ ↓
 Subnets
-
+ ↓
 Internet Gateway
-
+ ↓
 Elastic IP
-
+ ↓
 NAT Gateway
-
+ ↓
 Route Tables
-
-Route Tables Associations
+ ↓
+Route Table Associations
 
 Critical Dependac=ncy Examples:
 
