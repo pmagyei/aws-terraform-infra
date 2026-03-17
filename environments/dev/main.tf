@@ -14,7 +14,7 @@ resource "aws_vpc" "dev_vpc" {
 resource "aws_subnet" "public_subnet_1" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.64/27"
-  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_bloc, 8, 1)
+  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 1)
   availability_zone = "eu-west-2a"
 
   tags = {
