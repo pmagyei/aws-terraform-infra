@@ -25,7 +25,6 @@ resource "aws_egress_only_internet_gateway" "ipv6_igw" {
   }
 }
 
-
 resource "aws_subnet" "public_subnet_a" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.0/27"
@@ -38,7 +37,7 @@ resource "aws_subnet" "public_subnet_a" {
 resource "aws_subnet" "private_subnet_a" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.64/27"
-  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 1)
+  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 2)
   availability_zone = "eu-west-2a"
   tags = {
     Name = "private_subnet_a"
@@ -48,7 +47,7 @@ resource "aws_subnet" "private_subnet_a" {
 resource "aws_subnet" "public_subnet_b" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.32/27"
-  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 2)
+  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 3)
   availability_zone = "eu-west-2b"
   tags = {
     Name = "public_subnet_b"
@@ -58,7 +57,7 @@ resource "aws_subnet" "public_subnet_b" {
 resource "aws_subnet" "private_subnet_b" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.96/27"
-  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 2)
+  ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 4)
   availability_zone = "eu-west-2b"
   tags = {
     Name = "private_subnet_b"
@@ -67,7 +66,7 @@ resource "aws_subnet" "private_subnet_b" {
 
 #ipv4
 resource "aws_eip" "nat" {
-  domain = "dev_vpv"
+  domain = "dev_vpc"
   tags = {
     Name = "nat-eip"
   }
@@ -112,7 +111,7 @@ resource "aws_route_table" "dual_stack_private_route_table" {
     gateway_id = aws_nat_gateway.ipv4_nat.id
   }
    route {
-    cidr_block = "::/0"
+    ipv6_cidr_block = "::/0"
     gateway_id = aws_egress_only_internet_gateway.ipv6_igw.id
   }
   tags = {
