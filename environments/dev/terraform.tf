@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "170"
     workspaces {
-      name = "Terraform_Working_Directory"
+      name = "aws_networking_CI"
     }
   }
   required_providers {
