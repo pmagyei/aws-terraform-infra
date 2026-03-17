@@ -128,5 +128,4 @@ resource "aws_route_table_association" "private_b" {
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 # secuirty groups to be added
-
 # nacls to be added
