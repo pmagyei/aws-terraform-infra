@@ -126,6 +126,171 @@ resource "aws_route_table_association" "private_b" {
   subnet_id      = aws_subnet.private_subnet_b.id
   route_table_id = aws_route_table.dual_stack_private_route_table.id
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-# secuirty groups to be added
+
 # nacls to be added
+resource "aws_network_acl" "public_dual_stack" {
+  vpc_id = aws_vpc.dev_vpc.id
+
+  #icmp ipv4
+  ingress {
+    protocol   = "1"
+    rule_no    = 90
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = -1
+    to_port    = -1
+  }
+  egress {
+    protocol   = "1"
+    rule_no    = 90
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = -1
+    to_port    = -1
+  }
+  #icmp ipv6
+  ingress {
+    protocol   = "58"
+    rule_no    = 91
+    action     = "allow"
+    cidr_block = "::/0"
+    from_port  = -1
+    to_port    = -1
+  }
+
+  egress {
+    protocol   = "58"
+    rule_no    = 91
+    action     = "allow"
+    cidr_block = "::/0"
+    from_port  = -1
+    to_port    = -1
+  }
+ 
+ #https inbound
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 200
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 443
+    to_port    = 443
+  }
+
+  #https ephemeral ports outbound
+  egress {
+    protocol   = "tcp"
+    rule_no    = 300
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 1024
+    to_port    = 65535
+  }
+  egress {
+    protocol   = "tcp"
+    rule_no    = 301
+    action     = "allow"
+    cidr_block = "::/0"
+    from_port  = 1024
+    to_port    = 65535
+  }
+  tags = {
+    Name = "DEV_PUBLIC_NACL"
+  }
+  
+}
+
+resource "aws_network_acl" "private_dual_stack" {
+  vpc_id = aws_vpc.dev_vpc.id
+
+  ingress {
+    protocol   = "1"
+    rule_no    = 90
+    action     = "allow"
+    cidr_block = "10.10.10.0/25"
+    from_port  = -1
+    to_port    = -1
+  }
+  egress {
+    protocol   = "1"
+    rule_no    = 90
+    action     = "allow"
+    cidr_block = "10.10.10.0/25"
+    from_port  = -1
+    to_port    = -1
+  }
+
+  #allow icmp ipv6
+  egress {
+    protocol   = "58"
+    rule_no    = 91
+    action     = "allow"
+    cidr_block = "::/0"
+    from_port  = -1
+    to_port    = -1
+  }
+  ingress {
+    protocol   = "58"
+    rule_no    = 91
+    action     = "allow"
+    cidr_block = "::/0"
+    from_port  = -1
+    to_port    = -1
+  }
+
+  #allow https inbound
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 200
+    action     = "allow"
+    cidr_block = "10.10.10.0/25"
+    from_port  = 443
+    to_port    = 443
+  }
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 201
+    action     = "allow"
+    cidr_block = "::/0"
+    from_port  = 443
+    to_port    = 443
+  }
+  #alllows https outbound
+  egress {
+    protocol   = "tcp"
+    rule_no    = 300
+    action     = "allow"
+    cidr_block = "10.10.10.0/25"
+    from_port  = 1024
+    to_port    = 65535
+  }
+  egress {
+    protocol   = "tcp"
+    rule_no    = 301
+    action     = "allow"
+    cidr_block = "::/0"
+    from_port  = 1024
+    to_port    = 65535
+  }
+  tags = {
+    Name = "DEV_PRIVATE_NACL"
+  }  
+}
+resource "aws_network_acl_association" "public_a" {
+  network_acl_id = aws_network_acl.public_dual_stack.id
+  subnet_id      = aws_subnet.public_subnet_a.id
+}
+resource "aws_network_acl_association" "public_b" {
+  network_acl_id = aws_network_acl.public_dual_stack.id
+  subnet_id      = aws_subnet.public_subnet_b.id
+}
+resource "aws_network_acl_association" "private_a" {
+  network_acl_id = aws_network_acl.private_dual_stack.id
+  subnet_id      = aws_subnet.private_subnet_a.id
+}
+resource "aws_network_acl_association" "private_b" {
+  network_acl_id = aws_network_acl.private_dual_stack.id
+  subnet_id      = aws_subnet.private_subnet_b.id
+}
+
+# secuirty groups to be added
