@@ -137,34 +137,34 @@ resource "aws_network_acl" "public_dual_stack" {
     rule_no    = 90
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = -1
-    to_port    = -1
+    from_port  = 0
+    to_port    = 0
   }
   egress {
     protocol   = "1"
     rule_no    = 90
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = -1
-    to_port    = -1
+    from_port  = 0
+    to_port    = 0
   }
   #icmp ipv6
   ingress {
     protocol   = "58"
     rule_no    = 91
     action     = "allow"
-    cidr_block = "::/0"
-    from_port  = -1
-    to_port    = -1
+    ipv6_cidr_block = "::/0"
+    from_port  = 0
+    to_port    = 0
   }
 
   egress {
     protocol   = "58"
     rule_no    = 91
     action     = "allow"
-    cidr_block = "::/0"
-    from_port  = -1
-    to_port    = -1
+    ipv6_cidr_block = "::/0"
+    from_port  = 0
+    to_port    = 0
   }
  
  #https inbound
@@ -190,7 +190,7 @@ resource "aws_network_acl" "public_dual_stack" {
     protocol   = "tcp"
     rule_no    = 301
     action     = "allow"
-    cidr_block = "::/0"
+    ipv6_cidr_block = "::/0"
     from_port  = 1024
     to_port    = 65535
   }
@@ -208,16 +208,16 @@ resource "aws_network_acl" "private_dual_stack" {
     rule_no    = 90
     action     = "allow"
     cidr_block = "10.10.10.0/25"
-    from_port  = -1
-    to_port    = -1
+    from_port  = 0
+    to_port    = 0
   }
   egress {
     protocol   = "1"
     rule_no    = 90
     action     = "allow"
     cidr_block = "10.10.10.0/25"
-    from_port  = -1
-    to_port    = -1
+    from_port  = 0
+    to_port    = 0
   }
 
   #allow icmp ipv6
@@ -225,17 +225,17 @@ resource "aws_network_acl" "private_dual_stack" {
     protocol   = "58"
     rule_no    = 91
     action     = "allow"
-    cidr_block = "::/0"
-    from_port  = -1
-    to_port    = -1
+    ipv6_cidr_block = "::/0"
+    from_port  = 0
+    to_port    = 0
   }
   ingress {
     protocol   = "58"
     rule_no    = 91
     action     = "allow"
-    cidr_block = "::/0"
-    from_port  = -1
-    to_port    = -1
+    ipv6_cidr_block = "::/0"
+    from_port  = 0
+    to_port    = 0
   }
 
   #allow https inbound
@@ -251,7 +251,7 @@ resource "aws_network_acl" "private_dual_stack" {
     protocol   = "tcp"
     rule_no    = 201
     action     = "allow"
-    cidr_block = "::/0"
+    ipv6_cidr_block = "::/0"
     from_port  = 443
     to_port    = 443
   }
@@ -268,7 +268,7 @@ resource "aws_network_acl" "private_dual_stack" {
     protocol   = "tcp"
     rule_no    = 301
     action     = "allow"
-    cidr_block = "::/0"
+    ipv6_cidr_block = "::/0"
     from_port  = 1024
     to_port    = 65535
   }
