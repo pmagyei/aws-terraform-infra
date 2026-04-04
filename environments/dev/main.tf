@@ -309,8 +309,8 @@ resource "aws_security_group" "dual_stack_IP" {
   name = "dual-stack_ip"
   description = "Allow IPv4 & IPv6 web traffic"
   vpc_id = aws_vpc.dev_vpc.id
-  
-  ingress = {
+
+  ingress {
     from_port = 80
     to_port = 80
     protocol = "tcp"
