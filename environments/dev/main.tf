@@ -92,7 +92,10 @@ resource "aws_route_table" "dual_stack_public_route_table" {
   }
   tags = {
     Name = "public_dual_stack_rt"
-  }                                
+  }           
+
+
+# public route table associations                     
 }
 resource "aws_route_table_association" "public_a" {
   subnet_id      = aws_subnet.public_subnet_a.id
@@ -117,6 +120,9 @@ resource "aws_route_table" "dual_stack_private_route_table" {
   tags = {
     Name = "private_dual_stack_route"
   }
+
+# private route table associations
+
 }
 resource "aws_route_table_association" "private_a" {
   subnet_id      = aws_subnet.private_subnet_a.id
@@ -127,7 +133,7 @@ resource "aws_route_table_association" "private_b" {
   route_table_id = aws_route_table.dual_stack_private_route_table.id
 }
 
-# nacls to be added
+# nacls public
 resource "aws_network_acl" "public_dual_stack" {
   vpc_id = aws_vpc.dev_vpc.id
 
@@ -199,6 +205,9 @@ resource "aws_network_acl" "public_dual_stack" {
   }
   
 }
+
+
+# nacls private
 
 resource "aws_network_acl" "private_dual_stack" {
   vpc_id = aws_vpc.dev_vpc.id
@@ -275,6 +284,8 @@ resource "aws_network_acl" "private_dual_stack" {
   tags = {
     Name = "DEV_PRIVATE_NACL"
   }  
+
+# nacl associations
 }
 resource "aws_network_acl_association" "public_a" {
   network_acl_id = aws_network_acl.public_dual_stack.id
@@ -293,4 +304,55 @@ resource "aws_network_acl_association" "private_b" {
   subnet_id      = aws_subnet.private_subnet_b.id
 }
 
-# secuirty groups to be added
+# secuirty groups 
+resource "aws_security_group" "dual_stack_IP" {
+  name = "dual-stack_ip"
+  description = "Allow IPv4 & IPv6 web traffic"
+  vpc_id = aws_vpc.dev_vpc.id
+  
+  ingress = {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "HTTP from IPv4"
+}
+  ingress {
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    ipv6_cidr_blocks = ["::/0"]
+    description      = "HTTP from IPv6"
+  }
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "HTTPS from IPv4"
+  }
+
+  # Allow HTTPS from IPv6
+  ingress {
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    ipv6_cidr_blocks = ["::/0"]
+    description      = "HTTPS from IPv6"
+  }
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+    description      = "Allow all outbound"
+  }
+
+  tags = {
+    Name = "dual-stack-web-sg"
+  }
+}
+
+
+
