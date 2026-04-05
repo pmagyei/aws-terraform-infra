@@ -38,6 +38,7 @@ resource "aws_subnet" "private_subnet_a" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.64/27"
   ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 2)
+  assign_ipv6_address_on_creation = true
   availability_zone = "eu-west-2a"
   tags = {
     Name = "private_subnet_a"
@@ -58,6 +59,7 @@ resource "aws_subnet" "private_subnet_b" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.96/27"
   ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 4)
+  assign_ipv6_address_on_creation = true
   availability_zone = "eu-west-2b"
   tags = {
     Name = "private_subnet_b"
