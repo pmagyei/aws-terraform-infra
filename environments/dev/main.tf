@@ -346,7 +346,7 @@ resource "aws_security_group" "dual_stack_IP" {
 }
 
 # EC2 instance
-resource "aws_instance" "app-serve_a" {
+resource "aws_instance" "app-server_a" {
   ami = "ami-09dbc7ce74870d573"
   instance_type = "t3.micro"
   subnet_id = aws_subnet.private_subnet_a.id
@@ -356,7 +356,7 @@ resource "aws_instance" "app-serve_a" {
     Name = "APP_SERVER_A"
   }
 }
-resource "aws_instance" "app-serve_b" {
+resource "aws_instance" "app-server_b" {
   ami = "ami-09dbc7ce74870d573"
   instance_type = "t3.micro"
   subnet_id = aws_subnet.private_subnet_b.id
