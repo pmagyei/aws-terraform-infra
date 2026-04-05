@@ -345,5 +345,28 @@ resource "aws_security_group" "dual_stack_IP" {
   }
 }
 
+# EC2 instance
+resource "aws_instance" "app_server_a" {
+  ami = "ami-09dbc7ce74870d573"
+  instance_type = "t3.micro"
+  subnet_id = aws_subnet.private_subnet_a.id
+
+  vpc_security_group_ids = [aws_security_group.dual_stack_IP.id]
+  tags = {
+    Name = "APP_SERVER_A"
+  }
+}
+resource "aws_instance" "app_server_b" {
+  ami = "ami-09dbc7ce74870d573"
+  instance_type = "t3.micro"
+  subnet_id = aws_subnet.private_subnet_b.id
+
+  vpc_security_group_ids = [aws_security_group.dual_stack_IP.id]
+  tags = {
+    Name = "APP_SERVER_B"
+  }
+}
+
+# rds instance to be added
 
 
