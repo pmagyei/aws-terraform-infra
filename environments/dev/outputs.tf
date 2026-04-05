@@ -23,11 +23,11 @@ output "app_server_a_private_ipv4" {
     value = aws_instance.app_server_a.private_ip  
 }
 output "app_server_a_private_ipv6" {
-    value = aws_instance.app_server_a.ipv6_addresses[0]
+    value = aws_instance.app_server_a.ipv6_addresses
 }
 output "app_server_b_private_ipv4" {
     value = aws_instance.app_server_b.private_ip  
 }
 output "app_server_b_private_ipv6" {
-    value = aws_instance.app_server_b.ipv6_addresses[0]
+    value = aws_instance.app_server_b.ipv6_addresses
 }
