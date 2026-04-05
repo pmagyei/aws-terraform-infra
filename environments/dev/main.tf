@@ -49,6 +49,7 @@ resource "aws_subnet" "public_subnet_b" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.32/27"
   ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 3)
+  #map_public_ip_on_launch = true #used for ssh for bastion host /jumpbox
   availability_zone = "eu-west-2b"
   tags = {
     Name = "public_subnet_b"

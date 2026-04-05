@@ -19,15 +19,15 @@ output "private_subnet_ids" {
     aws_subnet.private_subnet_b.id
   ]
 }
-output "app_server_a_private_ipv4" {
-    value = aws_instance.app_server_a.private_ip  
+output "app_server_a_ipv4_ipv6_ip" {
+    value = [
+        aws_instance.app_server_a.private_ip,
+        aws_instance.app_server_a.ipv6_addresses
+    ] 
 }
-output "app_server_a_ipv6" {
-    value = aws_instance.app_server_a.ipv6_addresses
-}
-output "app_server_b_private_ipv4" {
-    value = aws_instance.app_server_b.private_ip  
-}
-output "app_server_b_ipv6" {
-    value = aws_instance.app_server_b.ipv6_addresses
+output "app_server_b_ipv4_ipv6_ip" {
+    value = [
+        aws_instance.app_server_b.private_ip, 
+        aws_instance.app_server_b.ipv6_addresses   
+    ] 
 }
