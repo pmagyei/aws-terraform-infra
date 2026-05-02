@@ -68,20 +68,27 @@ resource "aws_subnet" "private_subnet_b" {
 }
 
 #ipv4
-resource "aws_eip" "nat" {
+resource "aws_eip" "bastion_eip" {
   domain = "vpc"
   instance = aws_instance.bastion_host
+  tags = {
+    Name = "bastion-eip"
+  }
+}
+
+resource "aws_eip" "nat" {
+  domain = "vpc"
   tags = {
     Name = "nat-eip"
   }
 }
-# resource "aws_nat_gateway" "ipv4_nat" {
-#   allocation_id = aws_eip.nat.id
-#   subnet_id = aws_subnet.public_subnet_a.id 
-#   tags = {
-#     Name = "aws_nat_gw"
-#   }
-# }
+resource "aws_nat_gateway" "ipv4_nat" {
+  allocation_id = aws_eip.nat.id
+  subnet_id = aws_subnet.public_subnet_a.id 
+  tags = {
+    Name = "aws_nat_gw"
+  }
+}
 
 resource "aws_route_table" "dual_stack_public_route_table" {
   vpc_id = aws_vpc.dev_vpc.id
