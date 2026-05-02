@@ -70,7 +70,7 @@ resource "aws_subnet" "private_subnet_b" {
 #ipv4
 resource "aws_eip" "bastion_eip" {
   domain = "vpc"
-  instance = aws_instance.bastion_host
+  instance = aws_instance.bastion_host.id
   tags = {
     Name = "bastion-eip"
   }
