@@ -388,7 +388,7 @@ resource "aws_security_group" "dual_stack_IP" {
 # bastion SG
 
 resource "aws_security_group" "ssh"{
-  vpc_id      = dev_vpc.id
+  vpc_id      = aws_vpc.dev_vpc.id
   description = "Allow SSH to bastion host"
 
   ingress {
