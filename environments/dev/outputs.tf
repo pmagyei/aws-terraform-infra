@@ -31,3 +31,15 @@ output "app_server_b_ipv4_ipv6_ip" {
         aws_instance.app_server_b.ipv6_addresses   
     ] 
 }
+
+output "aws_eip" {
+    value = aws_eip.nat  
+}
+
+output "bastion_host" {
+    value = [
+        aws_instance.bastion_host.private_ip,
+        aws_instance.bastion_host.public_ip
+    ]
+    
+}
