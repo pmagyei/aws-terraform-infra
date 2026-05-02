@@ -38,6 +38,7 @@ resource "aws_subnet" "private_subnet_a" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.64/27"
   ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 2)
+  map_public_ip_on_launch = true #used for ssh for bastion host /jumpbox
   assign_ipv6_address_on_creation = true
   availability_zone = "eu-west-2a"
   tags = {
@@ -49,7 +50,6 @@ resource "aws_subnet" "public_subnet_b" {
   vpc_id     = aws_vpc.dev_vpc.id
   cidr_block = "10.10.10.32/27"
   ipv6_cidr_block = cidrsubnet(aws_vpc.dev_vpc.ipv6_cidr_block, 8, 3)
-  #map_public_ip_on_launch = true #used for ssh for bastion host /jumpbox
   availability_zone = "eu-west-2b"
   tags = {
     Name = "public_subnet_b"
@@ -70,17 +70,18 @@ resource "aws_subnet" "private_subnet_b" {
 #ipv4
 resource "aws_eip" "nat" {
   domain = "vpc"
+  instance = aws_instance.bastion_host
   tags = {
     Name = "nat-eip"
   }
 }
-resource "aws_nat_gateway" "ipv4_nat" {
-  allocation_id = aws_eip.nat.id
-  subnet_id = aws_subnet.public_subnet_a.id 
-  tags = {
-    Name = "aws_nat_gw"
-  }
-}
+# resource "aws_nat_gateway" "ipv4_nat" {
+#   allocation_id = aws_eip.nat.id
+#   subnet_id = aws_subnet.public_subnet_a.id 
+#   tags = {
+#     Name = "aws_nat_gw"
+#   }
+# }
 
 resource "aws_route_table" "dual_stack_public_route_table" {
   vpc_id = aws_vpc.dev_vpc.id
@@ -209,11 +210,29 @@ resource "aws_network_acl" "public_dual_stack" {
   
 }
 
-
 # nacls private
 
 resource "aws_network_acl" "private_dual_stack" {
   vpc_id = aws_vpc.dev_vpc.id
+
+
+  ingress {
+    protocol = "tcp"
+    rule_no = 80
+    action = "allow"
+    cidr_block = "10.10.10.64/27"
+    from_port = 22
+    to_port = 22
+  }
+
+    egress {
+    protocol   = "tcp"
+    rule_no    = 80
+    action     = "allow"
+    cidr_block = "10.10.10.64/27"
+    from_port  = 22
+    to_port    = 22
+  }
 
   ingress {
     protocol   = "1"
@@ -313,6 +332,17 @@ resource "aws_security_group" "dual_stack_IP" {
   description = "Allow IPv4 & IPv6 web traffic"
   vpc_id = aws_vpc.dev_vpc.id
 
+  # allow SSH 
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["10.10.10.64/27"]
+    #ipv6_cidr_blocks = ["::/0"]
+    description = "SSH accesss"
+}
+
   # Allow HTTP from IPv4 + IPv6
   ingress {
     from_port = 80
@@ -348,10 +378,53 @@ resource "aws_security_group" "dual_stack_IP" {
   }
 }
 
+# bastion SG
+
+resource "aws_security_group" "ssh"{
+  vpc_id      = dev_vpc.id
+  description = "Allow SSH to bastion host"
+
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    cidr_blocks = ["10.168.139.107/32"]
+  }
+
+    egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outbound"
+  }
+
+}
+
+
+#bation host
+
+resource "aws_key_pair" "bastion_key" {
+  key_name   = "bastion-key"
+  public_key = var.public_key
+  
+}
+
+resource "aws_instance" "bastion_host" {
+  ami = var.aws_ami_image
+  instance_type = var.aws_instance_type
+  subnet_id = aws_subnet.public_subnet_a.id
+  vpc_security_group_ids = [aws_security_group.ssh.id]
+  key_name = aws_key_pair.bastion_key.key_name
+
+  tags = {
+    Name = "bastion_host"
+  }
+}
 # EC2 instance
 resource "aws_instance" "app_server_a" {
-  ami = "ami-09dbc7ce74870d573"
-  instance_type = "t3.micro"
+  ami = var.aws_ami_image
+  instance_type = var.aws_instance_type
   subnet_id = aws_subnet.private_subnet_a.id
   monitoring = true
 
@@ -361,8 +434,8 @@ resource "aws_instance" "app_server_a" {
   }
 }
 resource "aws_instance" "app_server_b" {
-  ami = "ami-09dbc7ce74870d573"
-  instance_type = "t3.micro"
+  ami = var.aws_ami_image
+  instance_type = var.aws_instance_type
   subnet_id = aws_subnet.private_subnet_b.id
   monitoring = true
 
