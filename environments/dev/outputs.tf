@@ -37,7 +37,9 @@ output "aws_eip" {
 }
 
 output "bastion_host" {
-    value = aws_instance.bastion_host.p
+    value = [
+        aws_instance.bastion_host.private_ip,
+        aws_instance.bastion_host.public_ip
+    ]
     
-  
 }
