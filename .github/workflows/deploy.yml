@@ -1,12 +1,8 @@
-# Sample workflow to access AWS resources when workflow is tied to branch
-# The workflow creates a static website using Amazon S3
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 name: AWS example workflow
+
 on:
   workflow_dispatch
+  
 # permission can be added at job level or workflow level
 permissions:
   id-token: write  
