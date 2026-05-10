@@ -17,8 +17,3 @@ jobs:
           aws-region: eu-west-2
           role-session-name: ghawsoidc  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
           # AWS will block the login.
-          
-    #   - name: Additional steps
-    #     run: |
-    #       # Your commands that require AWS credentials
-    #       aws sts get-caller-identity
