@@ -1,4 +1,4 @@
-name: AWS example workflow
+name: Configure AWS Credentials
 
 on: [workflow_dispatch, pull_request]
   
@@ -13,8 +13,11 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
-          role-to-assume: arn:aws:iam::890742561478
+          role-to-assume: arn:aws:iam::890742561478:role/github-oidc
           aws-region: eu-west-2
+          role-session-name: ghawsoidc  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
+          # AWS will block the login.
+          
     #   - name: Additional steps
     #     run: |
     #       # Your commands that require AWS credentials
