@@ -10,7 +10,9 @@
 *.tfstate
 *.tfstate.*
 *.tfstate.backup
-.backup
+*.backup
+*.hcl
+.terraform.lock.hcl
 
 # Crash log files
 crash.log
@@ -43,3 +45,4 @@ terraform.rc
 Thumbs.db
 .vscode/
 .idea/
+
