@@ -7,7 +7,7 @@ permissions:
   id-token: write  
   contents: read
 jobs:
-  run_job_with_aws:
+  oidc:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
@@ -17,3 +17,5 @@ jobs:
           aws-region: eu-west-2
           role-session-name: ghawsoidc  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
           # AWS will block the login.
+      - name: Verify Identity
+        run: aws sts get-caller-identity
