@@ -1,7 +1,6 @@
 name: AWS example workflow
 
-on:
-  workflow_dispatch
+on: [workflow_dispatch, pull_request]
   
 # permission can be added at job level or workflow level
 permissions:
