@@ -22,4 +22,5 @@ Condition:
 It ensures that only tokens intended for AWS (aud) and originating 
 from  specific repository (sub) can get access.
 
-iamrole:
+iamrole: github-oidc
+added terraform backend policy to access state file in s3

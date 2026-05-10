@@ -7,7 +7,7 @@ permissions:
   id-token: write  
   contents: read
 jobs:
-  run_job_with_aws:
+  oidc:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
@@ -17,3 +17,28 @@ jobs:
           aws-region: eu-west-2
           role-session-name: ghawsoidc  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
           # AWS will block the login.
+      - name: Verify Identity
+        run: aws sts get-caller-identity
+      
+      - name: Test S3 Access (Can I see my state?)
+        run: |
+          echo "Testing list access..."
+          aws s3 ls s3://pag-aws-infra-state/projects/AWS-INFRA/
+          
+          echo "Testing write access..."
+          echo "test-data" > test.txt
+          aws s3 cp test.txt s3://pag-aws-infra-state/projects/test.txt
+        
+
+  s3statefile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::890742561478:role/github-oidc
+          aws-region: us-east-1 # Or your chosen region
+          role-session-name: cdk
+
+      - name: Verify Identity
+        run: aws sts get-caller-identity
