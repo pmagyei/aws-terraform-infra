@@ -1,0 +1,25 @@
+creates an OpenID Connect (OIDC) provide:
+
+creates json
+aws iam create-open-id-connect-provider \
+    --generate-cli-skeleton > <filepath>
+
+injects json in aws
+aws iam create-open-id-connect-provider \
+    --cli-input-json <file://<filepath>>
+
+create iam role and attch policy:
+
+aws iam create-role \
+    --cli-input-json file://iam-role-oidc.json \
+    --assume-role-policy-document file://githubaws-oidc_trust-policy.json
+
+
+iampolicy:
+Principal: Points to the OIDC provider created.
+Action: Must be sts:AssumeRoleWithWebIdentity for OIDC.
+Condition: 
+It ensures that only tokens intended for AWS (aud) and originating 
+from  specific repository (sub) can get access.
+
+iamrole:

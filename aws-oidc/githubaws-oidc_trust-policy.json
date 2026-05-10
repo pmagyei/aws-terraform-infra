@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ghawsiampolicy",
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::890742561478:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringLike": {
+                    "token.actions.githubusercontent.com:sub": "repo:pmagyei/AWS-INFRA:*"
+                },
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                }
+            }
+        }
+    ]
+}

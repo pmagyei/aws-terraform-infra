@@ -1,0 +1,14 @@
+{
+    "Path": "/",
+    "RoleName": "github-oidc",
+    "Description": "ghawsiamrole",
+    "MaxSessionDuration": 7200,
+    "Tags": [
+       { "Key": "workload", "Value": "ci-cd-automation" },
+        { "Key": "environment", "Value": "global" },
+        { "Key": "managed-by", "Value": "aws-cli" },
+        { "Key": "provider", "Value": "github" },
+        { "Key": "project", "Value": "aws-infra" },
+        { "Key": "owner", "Value": "pmagyei" }
+    ]
+}
