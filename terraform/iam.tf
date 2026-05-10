@@ -28,18 +28,14 @@ resource "aws_iam_role" "iam_role" {
 resource "aws_iam_role_policy_attachment" "SSMpolicy" {
     role = aws_iam_role.iam_role.name
     policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-    
-  
 }
 
 resource "aws_iam_role_policy_attachment" "CWApolicy" {
     role = aws_iam_role.iam_role.name
     policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-  
 }
 
 resource "aws_iam_instance_profile" "ec2-iam" {
     role = aws_iam_role.iam_role.name
 
-  
 }
