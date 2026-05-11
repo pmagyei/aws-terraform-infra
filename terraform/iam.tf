@@ -1,6 +1,6 @@
 # IAM: Create the IAM Role, attach the AWS managed policies for SSM
 resource "aws_iam_role" "iam_role" {
-  name = "ec2-role"
+  name = "ec2_instance_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
