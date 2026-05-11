@@ -47,5 +47,5 @@ jobs:
 
       - name: Terraform Apply
         id: plan
-        run: terraform apply -auto-approve -state-out=path 
+        run: terraform apply -auto-approve -state-out=path -lock=false
         continue-on-error: true    

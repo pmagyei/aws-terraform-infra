@@ -1,4 +1,4 @@
-name: AWS-Terraform-plan 
+name: AWS-Terraform-Plan 
 run-name: aws-terraform-plan
 
 on: 
