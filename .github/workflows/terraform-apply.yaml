@@ -2,15 +2,12 @@ name: AWS-Terraform-Apply
 run-name: aws-terraform-apply
 
 on: 
-  workflow_dispatch:
-
   pull_request:
     types:
       - closed
     branches:
       - 'main'
 
-  
 # permissions to be granted for workflow 
 permissions: #generates tokens for each job on the workflow
   id-token: write  
