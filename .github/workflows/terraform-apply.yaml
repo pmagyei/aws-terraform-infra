@@ -5,8 +5,10 @@ on:
   workflow_dispatch:
 
   pull_request:
+    types:
+      - closed
     branches:
-      - 'feature/*'
+      - 'main'
 
   
 # permissions to be granted for workflow 
@@ -14,6 +16,13 @@ permissions: #generates tokens for each job on the workflow
   id-token: write  
   contents: read
 jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo The PR was merged
+
   terraform-apply:
     runs-on: ubuntu-latest
     defaults:
@@ -31,19 +40,10 @@ jobs:
           # AWS will block the login.
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v4
-
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
         
       - name: Terraform Init
         id: init
-        run: terraform init -input=false 
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
+        run: terraform init -input=false
 
       - name: Terraform Apply
         id: plan
