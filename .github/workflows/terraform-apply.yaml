@@ -14,7 +14,7 @@ permissions: #generates tokens for each job on the workflow
   id-token: write  
   contents: read
 jobs:
-  run_job_with_aws:
+  terraform-apply:
     runs-on: ubuntu-latest
     defaults:
         run: 

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
         confirm_destroy:
-            description: 'Type "Destroy" to confirm'
+            description: 'Type "DESTROY" to confirm'
             required: true
             type: string
 
@@ -16,7 +16,7 @@ permissions: #generates tokens for each job on the workflow
   id-token: write  
   contents: read
 jobs:
-  run_job_with_aws:
+  terraform-destroy:
     runs-on: ubuntu-latest
     defaults:
         run: 
