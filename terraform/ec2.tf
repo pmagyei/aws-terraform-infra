@@ -1,9 +1,11 @@
 resource "aws_instance" "name" {
-    ami = var.aws_ami_image
-    instance_type = var.aws_instance_type
-    iam_instance_profile = aws_iam_instance_profile.ec2-iam.name
+  ami                    = var.aws_ami_image
+  instance_type          = var.aws_instance_type
+  iam_instance_profile   = aws_iam_instance_profile.ec2-iam.name
+  vpc_security_group_ids = [aws_security_group.ec2-sg.id]
 
-    user_data = <<-EOF
+
+  user_data = <<EOF
     #!/bin/bash
     wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
     sudo dpkg -i amazon-cloudwatch-agent.deb

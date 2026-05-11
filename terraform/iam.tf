@@ -1,7 +1,7 @@
 # IAM: Create the IAM Role, attach the AWS managed policies for SSM
 resource "aws_iam_role" "iam_role" {
-    name = "ec2-role"
-    assume_role_policy = jsonencode({
+  name = "ec2-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -16,26 +16,26 @@ resource "aws_iam_role" "iam_role" {
   })
 
   tags = {
-    managed-by = "terraform"
-    owner = "pmagyei"
-    project = "aws-infra"
-    provider = "terraform"
+    managed-by  = "terraform"
+    owner       = "pmagyei"
+    project     = "aws-infra"
+    provider    = "terraform"
     environment = "eu-west-2"
-    workload = "ci-cd-automation" 
+    workload    = "ci-cd-automation"
   }
-  
+
 }
 resource "aws_iam_role_policy_attachment" "SSMpolicy" {
-    role = aws_iam_role.iam_role.name
-    policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  role       = aws_iam_role.iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 resource "aws_iam_role_policy_attachment" "CWApolicy" {
-    role = aws_iam_role.iam_role.name
-    policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  role       = aws_iam_role.iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
 resource "aws_iam_instance_profile" "ec2-iam" {
-    role = aws_iam_role.iam_role.name
+  role = aws_iam_role.iam_role.name
 
 }
