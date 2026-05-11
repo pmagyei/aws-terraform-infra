@@ -1,0 +1,53 @@
+name: AWS-Terraform-plan 
+run-name: aws-terraform-plan
+
+on: 
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - 'feature/*'
+
+  
+# permissions to be granted for workflow 
+permissions: #generates tokens for each job on the workflow
+  id-token: write  
+  contents: read
+jobs:
+  run_job_with_aws:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: arn:aws:iam::890742561478:role/github-oidc
+          aws-region: eu-west-2
+          role-session-name: ghawsoidc  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
+          # AWS will block the login.
+
+  terraform-plan:
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ../../terraform
+    steps:
+    - uses: actions/checkout@v4
+    - uses: hashicorp/setup-terraform@v4
+
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
+
+    - name: Terraform Init
+      id: init
+      run: terraform init -input=false
+
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
+
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color -input=false -out=tfplan
+      continue-on-error: true
