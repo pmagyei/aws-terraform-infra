@@ -18,8 +18,8 @@ permissions: #generates tokens for each job on the workflow
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
-    environment:
-      name: 'aws-main-environment'
+    # environment:
+    #   name: 'aws-main-environment'
     defaults:
         run: 
           shell: bash 
