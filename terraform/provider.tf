@@ -7,5 +7,3 @@ terraform {
     use_lockfile = true #s3 native locking
   }
 }
-
-
