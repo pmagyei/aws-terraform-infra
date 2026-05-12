@@ -16,11 +16,13 @@ Automated, least-privilege AWS infrastructure deployed via GitHub Actions and Te
 .
 ├── .github/
 │   └── workflows/                # CI/CD pipeline with OIDC authentication
-│       └── terraform-plan.yaml
+│       └── terraform-plan.yaml   # OIDC defined in all workflows
 |       |__ terraform-apply.yaml
 |       |__ terraform-destroy.yaml     
 ├── terraform/
-│   ├── provider.tf         # AWS provider and S3/DynamoDB backend configuration
-│   ├── iam.tf              # OIDC, EC2 Instance Profiles, and Policies
-│   ├── ec2.tf              # EC2 instance, Security Groups, and user_data bootstrap
-│   └── variables.tf        # Environment variables and AMI definitions
+│   ├── provider.tf         # AWS S3 backend configuration
+│   ├── iam.tf              # EC2 IAM Instance Profile and policy configuration
+│   ├── ec2.tf              # EC2 instance, and user_data bootstrap
+│   |── variables.tf        # Environment variables and AMI definitions
+|   ├── terraform.tf        # AWS required provider and version 
+|   └── security_groups.tf  # Security Groups definition
