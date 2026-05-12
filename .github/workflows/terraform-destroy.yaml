@@ -18,6 +18,8 @@ permissions: #generates tokens for each job on the workflow
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
+    # environment:
+    #   name: 'aws-main-environment'
     defaults:
         run: 
           shell: bash 
@@ -40,5 +42,5 @@ jobs:
 
       - name: Terraform Destroy
         if: github.event.inputs.confirm_destroy == 'DESTROY'
-        run: terraform destroy -auto-approve -lock=false
+        run: terraform destroy -auto-approve
         continue-on-error: true   

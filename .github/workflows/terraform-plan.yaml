@@ -13,6 +13,8 @@ permissions: #generates tokens for each job on the workflow
   contents: read
 jobs:
   terraform-plan:
+    # environment:
+    #   name: 'aws-main-environment'
     runs-on: ubuntu-latest
     defaults:
         run: 
@@ -45,5 +47,5 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false -out=tfplan -lock=false
+        run: terraform plan -no-color -input=false -out=tfplan
         continue-on-error: true    
