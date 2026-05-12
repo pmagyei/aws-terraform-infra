@@ -1,4 +1,4 @@
-# AWS Zero-Trust Telemetry Infrastructure
+# AWS Least-Privilege Telemetry Infrastructure
 
 Automated, least-privilege AWS infrastructure deployed via GitHub Actions and Terraform. This project focuses on eliminating hardcoded credentials, closing all inbound network ports, and establishing deep system observability.
 
