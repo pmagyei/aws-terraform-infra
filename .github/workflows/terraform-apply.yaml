@@ -32,6 +32,8 @@ jobs:
           working-directory: ./terraform
   
     steps:
+      - name: Mask AWS Account ID
+        run: echo "::add-mask::${{ secrets.AWS_ACCOUNT_ID }}"
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
