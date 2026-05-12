@@ -24,6 +24,10 @@ jobs:
           working-directory: ./terraform
   
     steps:
+      - name: actions/checkout
+        uses: actions/checkout@v4
+      - name: hashicorp/setup-terraform
+        uses: hashicorp/setup-terraform@v4
       - name: Mask AWS Account ID
         run: echo "::add-mask::${{ secrets.AWS_ACCOUNT_ID }}"
       - name: Configure AWS Credentials
@@ -31,11 +35,9 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::890742561478:role/github-oidc
           aws-region: eu-west-2
-          role-session-name: ghawsoidc  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
+          role-session-name: ghawsoidc   # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
           # AWS will block the login.
-      - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v4
-        
+
       - name: Terraform Init
         id: init
         run: terraform init -input=false 
