@@ -2,7 +2,9 @@ name: AWS-Terraform-Plan
 run-name: aws-terraform-plan
 
 on: 
- pull_request:
+  workflow_dispatch:
+
+  pull_request:
     branches:
       - 'main'
 
