@@ -6,7 +6,7 @@ on:
     branches:
       - 'main'
 
-  
+
 # permissions to be granted for workflow 
 permissions: #generates tokens for each job on the workflow
   id-token: write  
@@ -25,9 +25,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
-          role-to-assume: arn:aws:iam::890742561478:role/github-oidc
+          role-to-assume: arn:aws:iam::890742561478:role/github-oidc-test
           aws-region: eu-west-2
-          role-session-name: ghawsoidc  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
+          role-session-name: ghawsoidc-test  # session name, requires GH to use the name "ghawsoidc" If it tries to use any other name,
           # AWS will block the login.
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v4
