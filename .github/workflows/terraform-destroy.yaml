@@ -1,7 +1,6 @@
 name: AWS-Terraform-Destroy
 run-name: aws-terraform-destroy
 
-
 on: 
   workflow_dispatch:
     inputs:
@@ -9,7 +8,6 @@ on:
             description: 'Type "DESTROY" to confirm'
             required: true
             type: string
-
   
 # permissions to be granted for workflow 
 permissions: #generates tokens for each job on the workflow
