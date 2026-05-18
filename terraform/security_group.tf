@@ -1,6 +1,6 @@
 resource "aws_security_group" "ec2-sg" {
-    # name = "ec2-sg"
-    # vpc_id = default
+  # name = "ec2-sg"
+  # vpc_id = default
   ingress {
     from_port        = 443
     to_port          = 443
