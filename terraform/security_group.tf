@@ -1,6 +1,5 @@
 resource "aws_security_group" "ec2-sg" {
-  # name = "ec2-sg"
-  # vpc_id = default
+  vpc_id = aws_vpc.aws-dev.id
   ingress {
     from_port        = 443
     to_port          = 443
@@ -12,10 +11,10 @@ resource "aws_security_group" "ec2-sg" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+    cidr_blocks = ["172.27.10.0/27"]
     description = "Allow all outbound"
   }
 }

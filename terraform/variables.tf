@@ -9,3 +9,14 @@ variable "aws_instance_type" {
   type        = string
   default     = "t3.micro"
 }
+
+variable "interface_endpoint_services" {
+  type = map(string)
+  default = {
+    ec2messages = "com.amazonaws.eu-west-2.ec2messages"
+    ssmmessages = "com.amazonaws.eu-west-2.ssmmessages"
+    ssm         = "com.amazonaws.eu-west-2.ssm"
+    cw          = "com.amazonaws.eu-west-2.monitoring"
+    logs        = "com.amazonaws.eu-west-2.logs"
+  }
+}

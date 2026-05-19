@@ -5,6 +5,7 @@ resource "aws_instance" "app_server" {
   iam_instance_profile        = aws_iam_instance_profile.ec2-iam.name
   vpc_security_group_ids      = [aws_security_group.ec2-sg.id]
   user_data_replace_on_change = true
+  subnet_id                   = aws_subnet.dev.id
   tags = {
     Name = "SRV-${count.index}"
   }
