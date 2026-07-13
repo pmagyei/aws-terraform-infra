@@ -18,13 +18,12 @@ jobs:
   if_merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    # environment:
-    #   name: 'aws-main-environment'
     steps:
     - run: |
         echo The PR was merged
 
   terraform-apply:
+    needs: if_merged
     runs-on: ubuntu-latest
     defaults:
         run: 
@@ -50,6 +49,7 @@ jobs:
         run: terraform init -input=false
 
       - name: Terraform Apply
+        
         id: plan
         run: terraform apply -auto-approve -state-out=path
         continue-on-error: true    
