@@ -8,7 +8,7 @@ on:
             description: 'Type "DESTROY" to confirm'
             required: true
             type: string
-  
+  # branch rule needs to be added
 # permissions to be granted for workflow 
 permissions: #generates tokens for each job on the workflow
   id-token: write  
@@ -16,8 +16,7 @@ permissions: #generates tokens for each job on the workflow
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
-    # environment:
-    #   name: 'aws-main-environment'
+    environment: aws_main_infra
     defaults:
         run: 
           shell: bash 
@@ -44,4 +43,3 @@ jobs:
       - name: Terraform Destroy
         if: github.event.inputs.confirm_destroy == 'DESTROY'
         run: terraform destroy -auto-approve
-        continue-on-error: true   
