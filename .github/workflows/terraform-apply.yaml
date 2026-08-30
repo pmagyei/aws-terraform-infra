@@ -1,9 +1,7 @@
 name: AWS-Terraform-Apply
 run-name: aws-terraform-apply
 
-on: 
-  workflow_dispatch:
-    
+on:     
   pull_request:
     types:
       - closed
@@ -51,5 +49,4 @@ jobs:
       - name: Terraform Apply
         
         id: plan
-        run: terraform apply -auto-approve -state-out=path
-        continue-on-error: true    
+        run: terraform apply -auto-approve -state-out=path 
